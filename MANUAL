@@ -1,0 +1,82 @@
+
+======================================================================
+Description of card file
+------------------------
+
+
+======================================================================
+Command-line options common to both programs
+--------------------------------------------
+
+-rundef	filename.IN	
+	Required option; it sets the card file to be read in.
+
+-nev NEV   [10^6?]
+	Number of events.
+
+-ybj y_bjorken [0.001]
+	the value to be chosen for y_bjorken (recall that multiple x
+	and Q values are done for fixed ybjorken).
+
+-tdfl filename.top  [gtopdraw.top]
+	File to which output should be sent.
+
+	If the file already exists then 
+
+	a) if -iseq corresponds (see below) the initial seed
+           is set to be the last seed of the preexisting file
+
+        b) output is sent filenamexx.top where xx is smallest number
+	   for which filenamexx.top does not exist.
+
+-iseq n    [1]
+        Sets the random number sequence to be used. For details, see
+	the documentation of the cernlib random number generator that
+	is being used, rm48.
+
+-wf nev  [10^6 for DISENT]
+	The maximum interval (in events) after which intermediate
+	results should be written to the output file (whose name stays
+	the same at each write). For small total numbers of events the
+	interval between writes may be smaller.
+
+	Note that for DISASTER++ the normalisation is correct only for
+	the final write. Owing to technical complications intermediate
+	writes generally have a normalisation which is off by a couple
+	of percent --- if one wishes to use the information from an
+	incomplete run one should renormalise by hand (the join-renorm
+	program offers this option).
+
+-muF muF/Q [1.0]
+	Sets the default value for the ratio mu_F/Q. (NB mu_F/Q can
+	also be set in the card file). 
+
+	Note that muF/=1 is not yet supported for DISASTER++.
+
+----------------------------------------------------------------------
+Options relevant only for disent
+---------------------------------
+
+
+
+
+-npow1 NPOW1 [2]
+-npow2 NPOW2 [4]
+        The values for the NPOW1 and NPOW2 internal disent parameters
+	(see the DISENT documentation for details).
+
+-cutoff [10^{-12}]
+	Default value for the internal disent cutoff
+
+-cf [1.333333333]
+	The value of the C_F colour factor
+
+-CA [3.0]
+	The value of the C_A colour factor
+
+-TR [0.5]
+	The value of the T_R colour factor
+
+
+-order ORDER [2]
+        Whether to do a LO (ORDER=1) or a NLO (ORDER=2) calculation. 

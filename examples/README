@@ -1,0 +1,17 @@
+README for dispatch/examples
+----------------------------
+
+This directory contains example run-definition files.
+
+H1.rdf	       run definition corresponding to the H1 hep-ex/9912052
+	       results. 
+
+ZEUS.rdf       run definition corresponding to some preliminary ZEUS
+	       x,Q^2 points.
+
+H1+ZEUS.rdf    an example of combining two run definition files.
+
+log.rdf	       a run-definition which is useful for comparing the
+	       exact fixed-order results to the expansions of the
+	       resummed results.
+
