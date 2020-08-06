@@ -2,6 +2,15 @@ CHANGELOG for dispatch
 ----------------------
 
 ------------
+Version 1.05
+------------
+released 2020-08-XX
+
+Includes the bug fix for disent identified by Ignacio Borsa, Daniel de
+Florian, Ivan Pedron as part of their https://arxiv.org/abs/2005.10705
+
+
+------------
 Version 1.04
 ------------
 
