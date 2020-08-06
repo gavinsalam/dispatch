@@ -1,0 +1,67 @@
+# Makefile generated automatically with
+# MakePNEW.perl dispatch-disent -lcern -post lcl_args.f90
+# with POSTLIB = -lPEPCF90 
+# added by hand
+#
+# NB disent-lib.o needs to be compiled with -O0 on ifc v6.0 otherwise
+# is gives some kind of floating-point nonsense.
+PROG =	dispatch-disent
+
+SRCS =	dis-shapes.f90 disent_helper.f90 fake_pdflib.f90 g90bk.f90 \
+	io_utils.f90 parser.f90 pdf_manager.f90 pdf_names.f90 \
+	run_descriptor.f90 types.f90 warnings_and_errors.f90 Ctq5Pdf.f \
+	disent-lib.f mrs99.f mrst2001.f $(PROG).f90
+
+POSTSRCS =	lcl_args.f90
+
+# This will be used one day...
+ALLPROG =	dispatch-disent.f90
+
+OBJS =	dis-shapes.o disent_helper.o fake_pdflib.o g90bk.o io_utils.o \
+	parser.o pdf_manager.o pdf_names.o run_descriptor.o types.o \
+	warnings_and_errors.o Ctq5Pdf.o disent-lib.o mrs99.o mrst2001.o \
+	$(PROG).o
+
+POSTOBJS =	lcl_args.o
+POSTLIB = -lPEPCF90 
+
+LIBS = -L/maia/cern/2000/lib  -lmathlib -lkernlib -L/usr/lib/gcc-lib/i386-redhat-linux/2.96/ -lg2c 
+
+CC = cc
+CFLAGS = -O
+FC = ifc
+FFLAGS = -O -fp_port
+F90 = ifc
+F90FLAGS = -O3
+LDFLAGS = -O3
+
+all: $(PROG)
+
+$(PROG): $(OBJS) $(POSTOBJS) 
+	$(F90) $(LDFLAGS) -o $@ $(OBJS) $(LIBS) $(POSTOBJS) $(POSTLIB)
+
+clean:
+	rm -f  $(OBJS) $(POSTOBJS) *.mod *.d
+
+realclean:
+	rm -f $(PROG) $(OBJS) $(POSTOBJS) *.mod *.d
+
+.SUFFIXES: $(SUFFIXES) .f90
+
+%.o: %.f90 
+	$(F90) $(F90FLAGS) -c $<
+
+dis-shapes.o: types.o
+disent_helper.o: dis-shapes.o g90bk.o io_utils.o pdf_manager.o \
+	run_descriptor.o types.o
+dispatch-disent.o: disent_helper.o io_utils.o parser.o types.o
+g90bk.o: io_utils.o types.o
+io_utils.o: 
+parser.o: dis-shapes.o io_utils.o pdf_manager.o pdf_names.o run_descriptor.o \
+	types.o
+pdf_manager.o: fake_pdflib.o types.o
+pdf_names.o: pdf_manager.o warnings_and_errors.o
+run_descriptor.o: dis-shapes.o g90bk.o io_utils.o pdf_manager.o pdf_names.o \
+	types.o
+types.o: 
+warnings_and_errors.o: types.o

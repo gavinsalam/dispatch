@@ -1,0 +1,201 @@
+# This is a Makefile for disaster.  By Thomas Hadig
+# Use gmake instead of make
+# set your values in this upper section of the makefile
+
+USE_GNU=1
+
+#{{{}}}
+#{{{  system
+UNAME   = $(shell uname)
+SYSTEM  = $(subst -,_,$(UNAME))
+#}}}
+#{{{  commands
+RM=/bin/rm
+MAKEDEPEND = makedepend -I/usr -I$(GCCMAINPATH)/lib/g++-include
+#}}}
+
+#{{{  main g++ options
+GCCMAINPATH    = /products/gcc
+GCCLIBPATH     = $(GCCMAINPATH)/lib
+#}}}
+
+all: disaster
+
+#{{{  machines
+ifeq ($(USE_GNU),1)
+
+ifeq ($(SYSTEM),FreeBSD)
+#{{{  FreeBSD with g++
+CXX=g++
+CXXFLAGS = -g3 -Wall -fno-external-templates -Df2cFortran
+CXXEND=.cc
+F77=g77
+FFLAGS   = -g3 -Nn802
+MACHINEPATH =
+LIBPATHOPT = -L
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),IRIX)
+#{{{  sgi with g++
+CXX=g++
+CXXFLAGS = -O3 -Wall -fno-external-templates -c -fhuge-objects
+CXXEND=.cc
+F77=f77
+FFLAGS   = -g3
+GCCMACHINEPATH = mips-sgi-irix5.3/2.7.2.1
+LIBPATHOPT = -L
+CXXLIBS  = $(LIBPATHOPT)$(GCCLIBPATH) $(LIBPATHOPT)$(GCCLIBPATH)/gcc-lib/$(GCCMACHINEPATH) \
+          -lg++ -lstdc++ -lgcc -lc -lgcc -lftn
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),SunOS)
+#{{{  sun with g++
+CXX=g++
+CXXFLAGS = -O3 -Wall -fno-external-templates -c -fhuge-objects
+CXXEND=.cc
+F77=f77
+FFLAGS   =
+GCCMACHINEPATH = sparc-sun-solaris2.5.1/2.7.2.1
+LIBPATHOPT = -L
+CXXLIBS  = $(LIBPATHOPT)$(GCCLIBPATH) $(LIBPATHOPT)$(GCCLIBPATH)/gcc-lib/$(GCCMACHINEPATH) \
+          -lg++ -lstdc++ -lgcc -lc -lgcc
+          /opt/SUNWspro/SC4.2/lib/libM77.a -lF77 -lsunmath
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),HP_UX)
+#{{{  hp with g++
+CXX=g++
+CXXFLAGS = -O3 -Wall -fno-external-templates -c -fhuge-objects
+CXXEND=.cc
+F77=f77
+FFLAGS   = 
+GCCMACHINEPATH = hppa1.1-hp-hpux9.05/2.7.2.1
+LIBPATHOPT = -Wl,-L
+CXXLIBS  = $(LIBPATHOPT)$(GCCLIBPATH) $(LIBPATHOPT)$(GCCLIBPATH)/gcc-lib/$(GCCMACHINEPATH) \
+          -lg++ -lstdc++ -lgcc -lc -lgcc
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS)
+#}}}
+endif
+ifeq ($(SYSTEM),AIX)
+#{{{  ibm with g++
+CXX=g++
+CXXFLAGS = -g3 -O3 -Wall -fno-external-templates -c -fhuge-objects
+CXXEND=.cc
+F77=f77
+FFLAGS   = -g
+CFLAGS   = -g3
+GCCMACHINEPATH = rs6000-ibm-aix4.1.4.0/2.7.2.1
+LIBPATHOPT = -Wl,-L
+CXXLIBS  = $(LIBPATHOPT)$(GCCLIBPATH) $(LIBPATHOPT)$(GCCLIBPATH)/gcc-lib/$(GCCMACHINEPATH) \
+          -lg++ -lstdc++ -lgcc -lc -lgcc -lxlf90 -lxlf 
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS)
+FSRCSADD = ibmadd.f
+LEXLIB = -ll
+#}}}
+endif
+
+else
+
+ifeq ($(SYSTEM),IRIX)
+#{{{  sgi with CC
+CXX=CC
+CXXFLAGS = -D_EMPTY_TEMPLATE
+CXXEND=.cc
+F77=f77
+FFLAGS   =
+CXXLIBS  = -lC -lc
+LIBPATHOPT = -L
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),SunOS)
+#{{{  sun with CC
+CXX=CC
+CXXFLAGS = -instances=static -g3
+CXXEND=.cc
+F77=f77
+FFLAGS   = -g
+CXXLIBS  = -L/opt/SUNWspro/lib/rw7:/opt/SUNWspro/lib:/opt/SUNWspro/SC4.2/lib:/opt/SUNWspro/SC4.2/lib/rw7:/usr/ccs/lib:/usr/lib -lm -lC -lC_mtstubs -lw -lcx -lc /opt/SUNWspro/SC4.2/lib/libM77.a -lF77 -lsunmath
+LIBPATHOPT = -L
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),HP_UX)
+#{{{  hp with CC
+CXX=CC
+CXXFLAGS = +a1 -D_EMPTY_TEMPLATE
+CXXEND=.cc
+F77=f77
+FFLAGS   =
+CXXLIBS  = -lcl -lc
+LIBPATHOPT = -Wl,-L
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+#}}}
+endif
+ifeq ($(SYSTEM),AIX)
+#{{{  ibm with xlC
+CXX=xlC
+CXXFLAGS = 
+CXXEND=.cc
+F77=f77
+FFLAGS   =
+CXXLIBS  = -L/usr/lpp/xlC/lib -lC -lxlf90 -lxlf -lm -lc
+LIBPATHOPT = -L
+FULL_CERN_LIBS = $(LIBPATHOPT)$(CERN_LIBS) 
+FSRCSADD = ibmadd.f
+#}}}
+endif
+
+endif
+#}}}
+
+# do not change anything below here
+LIBS    = $(CXXLIBS) $(FULL_CERN_LIBS) -lpdflib $(FULL_CERN_LIBS) $(LEXLIB) $(CXXLIBS)
+
+CSRCS   = $(CSRCSADD) onefile_n$(CXXEND)
+FSRCS   = $(FSRCSADD) disaster_f.f clust.f axodgr.g2.f dmath.g2.f nan.g2.f \
+          pdflib_f.g2.f vegas_f.g2.f virtual.g2.f clusterp.g2.f ci.g2.f \
+          ktclus.g2.f
+
+#FSRCS   = main.f example.f ktclus_dp.f support.f steer.f \
+#          axodgr.g2.f vegas_f.g2.f pdflib_f.g2.f virtual.g2.f dmath.g2.f \
+#          ci.g2.f clusterp.g2.f nan.g2.f $(FSRCSADD)
+#YACCSRCS= parser.y
+#LEXSRCS = lexer.l
+
+OBJS    = $(FSRCS:.f=.o) $(CSRCS:$(CXXEND)=.o) $(YACCSRCS:.y=.o) \
+          $(LEXSRCS:.l=.o)
+
+.y.o:
+	$(YACC) -d $*.y
+	$(CC) $(CFLAGS) -o $*.o -c y.tab.c
+	$(RM) y.tab.c
+
+.l.o:
+	$(LEX) $*.l
+	$(CC) $(CFLAGS) -o $*.o -c lex.yy.c
+	$(RM) lex.yy.c
+
+.f.o:
+	$(F77) $(FFLAGS) -o $*.o -c $*.f
+
+$(CXXEND).o:
+	$(CXX) $(CXXFLAGS) -o $*.o -c $*$(CXXEND)
+
+all: disaster
+
+disaster: $(OBJS) 
+	$(CXX) -o disaster $(OBJS) $(LIBS) $(LEXLIB) -lm -lc -L$(H1_LIBS) -lpdf7 -L$(CERN_LIBS)
+
+clean:
+	-$(RM) *.o core *.bak
+
+clobber: clean
+	-$(RM) disaster
+
+depend: $(CSRCS)
+	$(MAKEDEPEND) $(CSRCS)
+

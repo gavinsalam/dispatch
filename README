@@ -1,0 +1,31 @@
+README for dispatch
+-------------------
+
+Dispatch is a driver program for generating event-shapes distributions
+with disent and disaster++. Its features include
+
+. use of a single event to generate weights for distributions at
+  several x and Q^2 values. When looking at several x,Q^2 bins this
+  can lead to an order of magnitude speed improvement compared to,
+  say, the default way of running DISASTER.
+
+. simple interface for specifying a run through a card file and 
+  command-line options
+
+. Option of running with user-selected random-number sequence,
+  restarting a run from where it left off and combining runs done with
+  different random number sequences (using routines from the disresum
+  package, http://www.lpthe.jussieu.fr/~salam/disresum/).
+
+
+The distribution includes the disent and disaster++ programs
+themselves. The disent program included here is a slightly modified
+version of the official 0.1 release.
+
+For installation and brief running instructions please see the file
+INSTALL. 
+
+The latest version of dispatch, together with full documentation on
+its use, are to be found at http://www.lpthe.jussieu.fr/~salam/dispatch/
+
+

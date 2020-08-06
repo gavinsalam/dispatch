@@ -1,0 +1,25 @@
+
+#define POWER2(x)       ((x)*(x))
+#define POWER3(x)       ((x)*(x)*(x))
+#define POWER4(x)       ((x)*(x)*(x)*(x))
+#define POWER5(x)       ((x)*(x)*(x)*(x)*(x))
+#define POWERM2(x)       (1./((x)*(x)))
+#define POWERM3(x)       (1./((x)*(x)*(x)))
+#define POWERM4(x)       (1./((x)*(x)*(x)*(x)))
+#define POWERM5(x)       (1./((x)*(x)*(x)*(x)*(x)))
+
+#define Power(x, y)	(pow((double)(x), (double)(y)))
+#define Sqrt(x)		(sqrt((double)(x)))
+#define Exp(x)		(exp((double)(x)))
+#define Log(x)		(log((double)(x)))
+#define Sin(x)		(sin((double)(x)))
+#define Cos(x)		(cos((double)(x)))
+#define Tan(x)		(tan((double)(x)))
+#define ArcSin(x)       (asin((double)(x)))
+#define ArcCos(x)       (acos((double)(x)))
+#define ArcTan(x)       (atan((double)(x)))
+#define Sinh(x)          (sinh((double)(x)))
+#define Cosh(x)          (cosh((double)(x)))
+#define Tanh(x)          (tanh((double)(x)))
+#define E		2.71828182845904523536029
+//#define Pi		3.14159265358979323846264

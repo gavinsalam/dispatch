@@ -1,0 +1,165 @@
+Installation instructions for Dispatch
+--------------------------------------
+
+-------------------
+DIRECTORY STRUCTURE
+-------------------
+
+common/		all files that are independent of the particular MC
+		that is being used.
+
+disent/		the disent specific files (including a modified
+		version of disent v0.1) as well as links to the files
+		in common/
+
+disaster/dstrlib/
+		the disaster program itself.
+
+disaster/	the disaster-specific part of dispatch as well as
+		links to files in common/	
+
+examples/	some run-definition files
+
+
+---------
+MAKEFILES
+---------
+
+The programs contained in this directory contain a mixture of fortran
+77, fortran 90 and C++ and they access CERNLIB. Consequently
+compilation and linkage can be quite tricky and very system
+dependent. 
+
+Makefiles have been provided for 3 compiler setups (version numbers
+refer to releases that have been tested -- other versions may also
+work), coresponding to a standard Tru64 unix machine and the standard
+lxplus setup at CERN (with two f90 compiler choices).
+
+In each compilation directory (disent/, disaster/, disaster/dstrlib/)
+of dispatch it is necessary to do
+
+cp Makefile.xxx Makefile
+
+where xxx is 
+
+----------------------------------------------------------------------
+dux	  for the compaq f90 compiler under Tru64 unix (ex Digital unix)
+	  compiler and the default "make", together with the native
+	  C++ compiler (V6.2-024)
+
+pgf	  for the portland f90 compiler (version 3.2-4) under
+	  linux with gnu make, and gcc-2.91.66. 
+
+lhy	  for the lahey compiler (lf95 version 6.00a) under linux with
+	  gnu make, and gcc (2.91.66). For access to CERLNIB and for
+	  gcc linkage there are explicit references to the locations
+	  of the gcc/g77 libraries, so it may be necessary to edit
+	  these depending on the local system setup and compiler
+	  version.
+----------------------------------------------------------------------
+
+On linux for linkage to CERLNIB and C++ (with gcc) there are explicit
+references to the locations of the gcc/g77 libraries, so it may be
+necessary to edit these depending on the local system setup and
+compiler version. To get an idea of where they might reside the
+following command might give you the right thing to put instead of
+-L/usr/local/lib/gcc-lib/i686-pc-linux-gnu/egcs-2.91.66
+
+> gcc -v 2>&1 | sed -e 's:/specs::' -e 's:^.* /:-L/:' | head -1
+
+for the bash and zsh shells, while for the tcsh shell try
+
+> gcc -v |& sed -e 's:/specs::' -e 's:^.* /:-L/:' | head -1
+
+It may also be necessary to modify the reference ot the CERNLIB
+location. 
+
+If using a fortran 90 compiler other than the ones mentioned above it
+may also be necessary to modify the file lcl_args.f90 whcih provides a
+common f90 interface for the rest of the program to access command
+line arguments; lcl_args.f90 is the only routine to access the system
+and compiler-dependent routines, and while the version supplied works
+with many f90 compilers, there are some for which it does not work!
+
+-----------
+COMPILATION
+-----------
+
+Once the makefiles have been sorted out one can try compiling!
+
+To create the disent driver, dispatch-disent, it should suffice to do
+
+> cd disent
+> make
+
+To create the disaster++ driver, dispatch-disaster, one needs to first
+make a library out of disaster
+
+> cd disaster/dstrlib
+> make
+
+and then to compile dispatch-disaster itelf:
+
+> cd ..
+> make
+
+
+---------------------------------------
+NB: problems with Intel compiler (6.0)
+---------------------------------------
+Support for Intel compiler is not yet built in, but has been tested
+for dispatch-disent. It actually fails. A workaround is to compile
+disent-lib.f separately, without optimization:
+
+make
+rm disent-lib.o
+ifc -O0 -c disent-lib.f
+make
+
+NB: this entails a moderate penalty at LO and quite a non-negligible
+penalty at NLO.
+
+Workaround suggested by Thomas Kluge:
+ifc -O -fp_port -c disent-lib.f
+is reported to work and give a fast executable.
+
+-------
+RUNNING
+-------
+
+Depending on the structure function sets that you will be using it
+will be necessary to install the MRS, CTEQ or GRV (actually, not yet
+supported...) structure-function data tables, in directories mrs/, cteq/
+and grv/ respectively. The data tables can be obtained from
+http://www-spires.dur.ac.uk/hepdata/pdf.html
+
+A typical command to start a run would like like
+
+> dipatch-disent -rundef ../examples/H1.rdf -ybj 1e-3 -nev 1e6 
+
+This start a run based on the definition file in examples/H1.IN at a
+y-bjorken value of 10^{-3}, with 10^6 events.
+
+The output will be sent to a file gtopdraw.top by default (but the
+user can select a different output destination with the -tdfl option).
+
+
+======================================================================
+NOTE: dispatch calculates NLO event shape distributions at multiple
+values of x, but at a single fixed y-bjorken value. To obtain the
+distribution for multiple values of x but a single fixed \sqrt{s}
+value it is necessary to do runs at two different y-bjorken values and
+combine them with the program join-ybj2s which is to be found in as
+part of the disresum package (http://www.lpthe.jussieu.fr/~salam/disresum/)
+
+That package also contains the join-renorm program which is used
+for joining multiple runs done with different seeds (at the same
+y-bjorken value).
+
+These programs are distributed separately because they make use of
+parsing (and PDF convolution) routines that are in any case supplied
+as part of the disresum package.
+
+For documentation on dispatch, join-ybj2s and join-renorm, as well as
+for the latest release of dispatch, please see
+http://www.lpthe.jussieu.fr/~salam/dispatch/

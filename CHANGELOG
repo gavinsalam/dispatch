@@ -1,0 +1,25 @@
+CHANGELOG for dispatch
+----------------------
+
+------------
+Version 1.04
+------------
+
+Included Th. Kluge Makefile for disent with ifc
+
+--------------------------------------
+What happened in versions 1.02, 1.03?
+--------------------------------------
+
+-------------
+Version 1.0.1
+-------------
+
+Added template Makefiles in disent/
+
+-------------
+Version 1.0.0
+-------------
+
+Compared to 0.9 release, added named PDFs, muF dependence for disent
+and perhaps some other things as well.

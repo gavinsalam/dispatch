@@ -1,0 +1,72 @@
+
+#----------------------------------------------------------------------
+# Not really a proper makefile since dependencies are not taken care
+# of for the c++ objects
+#----------------------------------------------------------------------
+
+# Compile as follows
+# lf95 $(OBJS) $(LIBS) $(POSTOBJS)
+# with 
+# LIBS = dstrlib/libdisaster.a -L/cern/pro/lib  -lmathlib -lkernlib -L/usr/lib/ -lf2c -lm  -L/usr/local/lib/gcc-lib/i686-pc-linux-gnu/egcs-2.91.66 -lstdc++ -lgcc -lc -lgcc
+
+#CXX = gcc
+#CXXFLAGS = -O3 -Wall -fno-external-templates -fhuge-objects -Df2cFortran
+CXX = cxx 
+CXXFLAGS = -O3  -c -arch host -tune host
+CC = cc
+CFLAGS = -O
+#FC = g77
+#FFLAGS = -O3
+FC = f90
+FFLAGS =  -O
+#F90 = f90
+#F90FLAGS = -YEXT_NAMES=ASIS -B108 -B100 -O
+#LDFLAGS = -YEXT_NAMES=ASIS -B108 -B100 
+
+
+.SUFFIXES: $(SUFFIXES) .f90 .cc
+
+.cc.o:
+	$(CXX) $(CXXFLAGS) -c $<
+
+.f90.o:
+	$(F90) $(F90FLAGS) -c $<
+
+
+ARCH = libdisaster.a
+
+CXXSRCS = onefile_n.cc
+
+CXXOBJS = onefile_n.o
+
+
+SRCS =	axodgr.g2.f ci.g2.f clusterp.g2.f dmath.g2.f ktclus.g2.f nan.g2.f \
+	pdflib_f.g2.f vegas_f.g2.f virtual.g2.f
+
+OBJS =	axodgr.g2.o ci.g2.o clusterp.g2.o dmath.g2.o ktclus.g2.o nan.g2.o \
+	pdflib_f.g2.o vegas_f.g2.o virtual.g2.o
+
+LIBS =	
+
+
+
+all: $(ARCH)
+
+$(ARCH): $(OBJS) $(CXXOBJS)
+	ar -r $(ARCH) $(CXXOBJS) $(OBJS)
+
+#-------------------------------------
+fclean: 
+	rm -f $(OBJS)
+
+clean:
+	rm -f $(OBJS) $(CXXOBJS)
+
+realclean:
+	rm -f $(OBJS) $(CXXOBJS) $(ARCH)
+
+
+.SUFFIXES: $(SUFFIXES) .f90
+
+
+
