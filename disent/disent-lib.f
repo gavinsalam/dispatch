@@ -1406,6 +1406,11 @@ c---calculate weight for gluon-quark splitting function (isr)
           gq=16*pisq/emsq*(x**2+(1-x)**2)/z/(1-z)
           gq=gq*(cf-hf*ca)/cf*tr
         else
+c--- "if(perm.eq.4)" and associated else are bug fix
+c    reported by Borsa, de Florian and Pedron 
+c    on 2020-08-06 to resolve discrepancy
+c    with Disaster
+          if (perm.eq.4) then
           do m=1,4
             temp=q(m,2)
             q(m,2)=q(m,3)
@@ -1417,6 +1422,9 @@ c---calculate weight for gluon-quark splitting function (isr)
             q(m,2)=q(m,3)
             q(m,3)=temp
           enddo
+          else
+            call matthr(q,s5)
+          endif
           gq=16*pisq/emsq*(x**2+(1-x)**2)/z
           gq=gq*hf*ca/cf*tr
         endif
