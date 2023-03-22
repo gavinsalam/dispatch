@@ -592,11 +592,12 @@ contains
   subroutine rd_message()
     write(0,*) '-----------------------------------------------------------------'
     write(0,*) 'DISPATCH. An optimised DISENT/DISASTER driver.'
-    write(0,*) 'Version 1.0.4'
+    write(0,*) 'Version 1.0.5'
     write(0,*) 'Written by Gavin Salam, June-August 2000'
-    write(0,*) 'with updates in October 2001'
+    write(0,*) 'with updates in October 2001 & 2020-2023'
     write(0,*) 'If you use this program please refer to'
     write(0,*) 'M. Dasgupta and G.P. Salam, JHEP 0208 (2002) 032 [hep-ph/0208073]'
+    write(0,*) 'and to the original DISENT/DISASTER publications and arXiv:2010.07354'
     write(0,*) '-----------------------------------------------------------------'
   end subroutine rd_message
   

@@ -1,4 +1,4 @@
-#!/usr/local/bin/zsh
+#!/usr/bin/env zsh
 # $Id: tarit.sh,v 1.7 2002/12/17 10:51:33 gsalam Exp $
 
 release='1.0.5'
