@@ -15,17 +15,19 @@ with disent and disaster++. Its features include
 . Option of running with user-selected random-number sequence,
   restarting a run from where it left off and combining runs done with
   different random number sequences (using routines from the disresum
-  package, http://www.lpthe.jussieu.fr/~salam/disresum/).
+  package, http://cern.ch/gsalam/disresum/).
 
 
-The distribution includes the disent and disaster++ programs
-themselves. The disent program included here is a slightly modified
-version of the official 0.1 release.
+The distribution includes the disent and disaster++ programs themselves.
+The disent program included here is a slightly modified version of the
+official 0.1 release and notably includes the bug fix by Ignacio Borsa,
+Daniel de Florian and Ivan Pedron, as documented in Appendix A of 
+https://arxiv.org/abs/2010.07354.
 
 For installation and brief running instructions please see the file
 INSTALL. 
 
 The latest version of dispatch, together with full documentation on
-its use, are to be found at http://www.lpthe.jussieu.fr/~salam/dispatch/
+its use, are to be found at http://cern.ch/gsalam/dispatch/
 
 

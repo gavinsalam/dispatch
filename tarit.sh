@@ -1,7 +1,7 @@
 #!/usr/local/bin/zsh
 # $Id: tarit.sh,v 1.7 2002/12/17 10:51:33 gsalam Exp $
 
-release='1.0.4'
+release='1.0.5'
 basedir=dispatch
 basename=$basedir-$release
 
