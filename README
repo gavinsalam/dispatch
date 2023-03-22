@@ -15,7 +15,7 @@ with disent and disaster++. Its features include
 . Option of running with user-selected random-number sequence,
   restarting a run from where it left off and combining runs done with
   different random number sequences (using routines from the disresum
-  package, http://cern.ch/gsalam/disresum/).
+  package, https://cern.ch/gsalam/disresum/).
 
 
 The distribution includes the disent and disaster++ programs themselves.
@@ -28,6 +28,6 @@ For installation and brief running instructions please see the file
 INSTALL. 
 
 The latest version of dispatch, together with full documentation on
-its use, are to be found at http://cern.ch/gsalam/dispatch/
+its use, are to be found at https://cern.ch/gsalam/dispatch/
 
 
